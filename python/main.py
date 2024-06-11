@@ -18,8 +18,12 @@ for r,d,_ in os.walk(source_dataset_path):
   for dir in d:
     participant_partitions.append(os.path.join(r,dir))
 
-selected_id_dirs = [dir for dir in participant_partitions if dir in participant_ids]
+selected_id_dirs = [dir for dir in participant_partitions if os.path.basename(dir) in participant_ids]
 
 destination_dataset_path = config["python"]["destination_dataset_path"]
 
 # os.makedirs(os.path.join(destination_dataset_path, os.path.basename(source_dataset_path)))
+
+for dir in participant_partitions:
+  if os.path.basename(dir) not in participant_ids:
+    print(False)
