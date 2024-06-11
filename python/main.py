@@ -13,10 +13,13 @@ participant_ids = list(set(f["PARTICIPANT_ID"].tolist()))
 
 source_dataset_path = config["python"]["source_dataset_path"]
 
-participant_partitions = os.listdir(source_dataset_path)
+participant_partitions = []
+for r,d,_ in os.walk(source_dataset_path):
+  for dir in d:
+    participant_partitions.append(os.path.join(r,dir))
 
 selected_id_dirs = [dir for dir in participant_partitions if dir in participant_ids]
 
 destination_dataset_path = config["python"]["destination_dataset_path"]
 
-os.makedirs(os.path.join(destination_dataset_path, os.path.basename(source_dataset_path)))
+# os.makedirs(os.path.join(destination_dataset_path, os.path.basename(source_dataset_path)))
