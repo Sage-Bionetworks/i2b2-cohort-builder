@@ -3,8 +3,20 @@ import pandas as pd
 import pyarrow.dataset as ds
 from os import path
 
-with open("config.yml", "r") as f:
-  config = yaml.safe_load(f)
+def load_config(path):
+  """ Parse only basic/trusted tags in a YAML config file and 
+  produce the corresponding Python object.
+  
+  Arguments:
+    path: path to config file
+  
+  Returns:
+    An object (usually dict) containing parameters from the config file
+  """
+  with open(path, "r") as f:
+    return yaml.safe_load(f)
+
+config = load_config(path="config.yml")
 
 fpath = config["python"]["participants_csv_path"]
 
