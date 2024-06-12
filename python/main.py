@@ -1,6 +1,7 @@
 import yaml
 import pandas as pd
-import os
+import pyarrow.dataset as ds
+from os import path
 
 with open("config.yml", "r") as f:
   config = yaml.safe_load(f)
@@ -13,17 +14,9 @@ participant_ids = list(set(f["PARTICIPANT_ID"].tolist()))
 
 source_dataset_path = config["python"]["source_dataset_path"]
 
-participant_partitions = []
-for r,d,_ in os.walk(source_dataset_path):
-  for dir in d:
-    participant_partitions.append(os.path.join(r,dir))
+dataset = ds.dataset(source=source_dataset_path)
 
-selected_id_dirs = [dir for dir in participant_partitions if os.path.basename(dir) in participant_ids]
+# participant_ids.extend([path.basename(path.dirname(x)) for x in dataset.files][1:3])
+selected_id_dirs = [x for x in dataset.files if path.basename(path.dirname(x)) in participant_ids]
 
-destination_dataset_path = config["python"]["destination_dataset_path"]
-
-# os.makedirs(os.path.join(destination_dataset_path, os.path.basename(source_dataset_path)))
-
-for dir in participant_partitions:
-  if os.path.basename(dir) not in participant_ids:
-    print(False)
+filtered_dataset = ds.dataset(source=selected_id_dirs)
