@@ -17,15 +17,15 @@ def load_config(path):
   with open(path, "r") as f:
     return yaml.safe_load(f)
 
-def get_cohort_partition_paths(selected_participants_manifest_path, source_dataset_path):
+def get_cohort_partition_paths(manifest_path, dataset_path):
   """
   Get a list of Participant Identifiers to extract data for from a dataset that 
   is partitioned by Participant Identifier
   
   Arguments:
-    selected_participants_manifest_path: path to manifest file containing 
-      selected Participant Identifiers
-    source_dataset_path: path to participant-partitioned dataset we want to 
+    manifest_path: path to manifest file containing selected 
+      Participant Identifiers
+    dataset_path: path to participant-partitioned dataset to 
       extract participant-partitions from
   
   Returns:
