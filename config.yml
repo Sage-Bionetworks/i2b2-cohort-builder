@@ -4,3 +4,6 @@ default:
 python:
   participants_csv_path: "/sbgenomics/project-files/i2b2_exported_participant_ids_2024-01-18_142546_9276.csv"
   source_dataset_path: "/sbgenomics/project-files/dataset_healthkitv2samples"
+
+R:
+  inherits: python
