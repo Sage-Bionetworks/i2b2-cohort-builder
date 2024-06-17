@@ -24,12 +24,10 @@ load_config <- function(path, active_config) {
 #' partitioned dataset
 get_cohort_partition_paths <- function(manifest_path, dataset_path) {
   f <- read.csv(manifest_path)
-  f <- read.csv(config$participants_csv_path)
   
   participant_ids <- f$PARTICIPANT_ID %>% unique()
   
   dataset <- arrow::open_dataset(dataset_path)
-  dataset <- arrow::open_dataset(config$source_dataset_path)
   
   selected_id_dirs <- vector(mode = "character")
   for (x in dataset$files) {
