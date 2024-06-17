@@ -50,24 +50,19 @@ build_cohort <- function(selected_partitions_list) {
   filtered_dataset <- arrow::open_dataset(selected_partitions_list)
 }
 
-main <- function() {
-  config <- 
-    load_config(
-      path = "config.yml",
-      active_config = "R"
-    )
-  
-  selected_id_dirs <- 
-    get_cohort_partition_paths(
-      manifest_path = config$participants_csv_path, 
-      dataset_path = config$source_dataset_path
-    )
-  
-  filtered_dataset <- 
-    build_cohort(
-      selected_partitions_list = selected_id_dirs
-    )
-}
+config <- 
+  load_config(
+    path = "config.yml",
+    active_config = "R"
+  )
 
-tmp <- main()
+selected_id_dirs <- 
+  get_cohort_partition_paths(
+    manifest_path = config$participants_csv_path, 
+    dataset_path = config$source_dataset_path
+  )
 
+filtered_dataset <- 
+  build_cohort(
+    selected_partitions_list = selected_id_dirs
+  )
