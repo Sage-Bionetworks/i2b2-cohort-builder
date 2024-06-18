@@ -41,7 +41,7 @@ def get_cohort_partition_paths(manifest_path, dataset_path):
     dataset = ds.dataset(source=source_dataset_path)
 
     selected_id_dirs = [
-        file for file in dataset.files 
+        file for file in dataset.files
         if path.basename(path.dirname(file)) in participant_ids]
 
     return selected_id_dirs
