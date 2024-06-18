@@ -21,8 +21,8 @@ def load_config(path):
 
 def get_cohort_partition_paths(manifest_path, dataset_path):
     """
-    Get a list of Participant Identifiers to extract data for from a dataset that
-    is partitioned by Participant Identifier
+    Get a list of Participant Identifiers to extract data for from a dataset
+    that is partitioned by Participant Identifier
 
     Arguments:
         manifest_path: path to manifest file containing selected
@@ -40,34 +40,41 @@ def get_cohort_partition_paths(manifest_path, dataset_path):
 
     dataset = ds.dataset(source=source_dataset_path)
 
-    selected_id_dirs = [x for x in dataset.files if path.basename(path.dirname(x)) in participant_ids]
+    selected_id_dirs = [
+        file for file in dataset.files 
+        if path.basename(path.dirname(file)) in participant_ids]
 
     return selected_id_dirs
 
 
-def build_cohort(selected_partitions_list):
+def build_cohort(partition_paths):
     """
     Extract partitions from a dataset that is partitioned by Participant
     Identifier given a list of paths to Participant Identifier partitions from
     the original dataset
 
     Arguments:
-        selected_partitions_list: A list of paths pointing to dataset partitions
+        partition_paths: A list of paths pointing to dataset partitions
 
     Returns:
         A pyarrow Dataset object
     """
-    filtered_dataset = ds.dataset(source=selected_partitions_list)
+    filtered_dataset = ds.dataset(source=partition_paths)
 
     return filtered_dataset
 
 
 if __name__ == "__main__":
-    config = load_config(path="config.yml")
+    config = load_config(
+        path="config.yml"
+    )
 
     selected_id_dirs = get_cohort_partition_paths(
-        selected_participants_manifest_path=config["python"]["participants_csv_path"],
-        source_dataset_path=config["python"]["source_dataset_path"])
+        manifest_path=config["python"]["participants_csv_path"],
+        dataset_path=config["python"]["source_dataset_path"]
+    )
 
-    filtered_dataset = build_cohort(selected_id_dirs)
+    filtered_dataset = build_cohort(
+        partition_paths=selected_id_dirs
+    )
 
