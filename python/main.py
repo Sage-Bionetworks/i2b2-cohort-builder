@@ -13,26 +13,26 @@ def load_config(path):
         path: path to config file
 
     Returns:
-      An object (usually dict) containing parameters from the config file
+        An object (usually dict) containing parameters from the config file
     """
     with open(path, "r") as f:
-      return yaml.safe_load(f)
+        return yaml.safe_load(f)
 
 
-  def get_cohort_partition_paths(manifest_path, dataset_path):
+def get_cohort_partition_paths(manifest_path, dataset_path):
     """
     Get a list of Participant Identifiers to extract data for from a dataset that
     is partitioned by Participant Identifier
 
     Arguments:
-      manifest_path: path to manifest file containing selected
+        manifest_path: path to manifest file containing selected
         Participant Identifiers
-      dataset_path: path to participant-partitioned dataset to
+        dataset_path: path to participant-partitioned dataset to
         extract participant-partitions from
 
     Returns:
-      A list containing the unique Participant Identifiers that are in our
-      manifest list of selected participants and in our source dataset
+        A list containing the unique Participant Identifiers that are in our
+        manifest list of selected participants and in our source dataset
     """
     f = pd.read_csv(selected_participants_manifest_path, engine="pyarrow")
 
@@ -45,29 +45,29 @@ def load_config(path):
     return selected_id_dirs
 
 
-  def build_cohort(selected_partitions_list):
+def build_cohort(selected_partitions_list):
     """
     Extract partitions from a dataset that is partitioned by Participant
     Identifier given a list of paths to Participant Identifier partitions from
     the original dataset
 
     Arguments:
-      selected_partitions_list: A list of paths pointing to dataset partitions
+        selected_partitions_list: A list of paths pointing to dataset partitions
 
     Returns:
-      A pyarrow Dataset object
+        A pyarrow Dataset object
     """
     filtered_dataset = ds.dataset(source=selected_partitions_list)
 
     return filtered_dataset
 
 
-  if __name__ == "__main__":
+if __name__ == "__main__":
     config = load_config(path="config.yml")
 
     selected_id_dirs = get_cohort_partition_paths(
-      selected_participants_manifest_path=config["python"]["participants_csv_path"],
-      source_dataset_path=config["python"]["source_dataset_path"])
+        selected_participants_manifest_path=config["python"]["participants_csv_path"],
+        source_dataset_path=config["python"]["source_dataset_path"])
 
     filtered_dataset = build_cohort(selected_id_dirs)
 
