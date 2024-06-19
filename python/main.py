@@ -1,5 +1,5 @@
 import yaml
-import pandas as pd
+import polars as pl
 import pyarrow.dataset as ds
 from os import path
 
@@ -34,7 +34,7 @@ def get_cohort_partition_paths(manifest_path, dataset_path):
         A list containing the unique Participant Identifiers that are in our
         manifest list of selected participants and in our source dataset
     """
-    f = pd.read_csv(selected_participants_manifest_path, engine="pyarrow")
+    f = pl.read_csv(selected_participants_manifest_path)
 
     participant_ids = list(set(f["PARTICIPANT_ID"].tolist()))
 
