@@ -34,11 +34,11 @@ def get_cohort_partition_paths(manifest_path, dataset_path):
         A list containing the unique Participant Identifiers that are in our
         manifest list of selected participants and in our source dataset
     """
-    f = pl.read_csv(selected_participants_manifest_path)
+    f = pl.read_csv(manifest_path)
 
-    participant_ids = list(set(f["PARTICIPANT_ID"].tolist()))
+    participant_ids = list(set(f["PARTICIPANT_ID"].to_list()))
 
-    dataset = ds.dataset(source=source_dataset_path)
+    dataset = ds.dataset(source=dataset_path)
 
     selected_id_dirs = [
         file for file in dataset.files
@@ -65,16 +65,12 @@ def build_cohort(partition_paths):
 
 
 if __name__ == "__main__":
-    config = load_config(
-        path="config.yml"
-    )
+    config = load_config(path="config.yml")
 
-    selected_id_dirs = get_cohort_partition_paths(
+    selected_id_dirs =
+      get_cohort_partition_paths(
         manifest_path=config["python"]["participants_csv_path"],
         dataset_path=config["python"]["source_dataset_path"]
-    )
+      )
 
-    filtered_dataset = build_cohort(
-        partition_paths=selected_id_dirs
-    )
-
+    filtered_dataset = build_cohort(partition_paths=selected_id_dirs)
