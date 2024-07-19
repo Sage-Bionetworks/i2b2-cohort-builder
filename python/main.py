@@ -68,9 +68,9 @@ if __name__ == "__main__":
     config = load_config(path="config.yml")
 
     selected_id_dirs =
-      get_cohort_partition_paths(
-        manifest_path=config["python"]["participants_csv_path"],
-        dataset_path=config["python"]["source_dataset_path"]
+        get_cohort_partition_paths(
+            manifest_path=config["python"]["participants_csv_path"],
+            dataset_path=config["python"]["source_dataset_path"]
       )
 
     filtered_dataset = build_cohort(partition_paths=selected_id_dirs)
